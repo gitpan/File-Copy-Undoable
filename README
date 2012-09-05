@@ -3,7 +3,7 @@ NAME
     support
 
 VERSION
-    version 0.01
+    version 0.02
 
 FAQ
   Why do you use rsync? Why not, say, File::Copy::Recursive?
@@ -11,7 +11,7 @@ FAQ
     for recovery. Also, "rsync" can handle hardlinks and preservation of
     ownership, something which File::Copy::Recursive currently does not do.
     And, being implemented in C, it might be faster when processing large
-    files/trees..
+    files/trees.
 
 SEE ALSO
     Setup
@@ -60,6 +60,22 @@ FUNCTIONS
         of just directory name. For example: cp(source=>'/dir',
         target=>'/a') will copy /dir to /a and cp(source=>'/dir',
         target=>'/a/dir') will copy /dir to /a/dir.
+
+    *   target_group => *str*
+
+        Set group of target.
+
+        See "target_owner".
+
+    *   target_owner => *str*
+
+        Set ownership of target.
+
+        If set, will do a "chmod -Rh" on the target after rsync to set
+        ownership. This usually requires super-user privileges. An example
+        of this is copying files on behalf of user from a source that is
+        inaccessible by the user (e.g. a system backup location). Or,
+        setting up user's home directory when creating a user.
 
     Special arguments:
 

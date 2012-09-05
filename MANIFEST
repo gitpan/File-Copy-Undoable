@@ -10,6 +10,7 @@ dist.ini
 lib/File/Copy/Undoable.pm
 t/00-compile.t
 t/cp.t
+t/owner_group.t
 t/release-pod-coverage.t
 t/release-pod-syntax.t
 weaver.ini

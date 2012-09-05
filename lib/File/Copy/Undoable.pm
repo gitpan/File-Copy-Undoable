@@ -7,10 +7,11 @@ use Log::Any '$log';
 
 use Builtin::Logged qw(system);
 use File::Trash::Undoable;
+#use PerlX::Maybe;
 use SHARYANTO::File::Util qw(file_exists);
 use SHARYANTO::Proc::ChildError qw(explain_child_error);
 
-our $VERSION = '0.01'; # VERSION
+our $VERSION = '0.02'; # VERSION
 
 our %SPEC;
 
@@ -48,6 +49,27 @@ directory name. For example: cp(source=>'/dir', target=>'/a') will copy /dir to
 _
             req    => 1,
             pos    => 1,
+        },
+        target_owner => {
+            schema => 'str*',
+            summary => 'Set ownership of target',
+            description => <<'_',
+
+If set, will do a `chmod -Rh` on the target after rsync to set ownership. This
+usually requires super-user privileges. An example of this is copying files on
+behalf of user from a source that is inaccessible by the user (e.g. a system
+backup location). Or, setting up user's home directory when creating a user.
+
+_
+        },
+        target_group => {
+            schema => 'str*',
+            summary => 'Set group of target',
+            description => <<'_',
+
+See `target_owner`.
+
+_
         },
         rsync_opts => {
             schema => [array => {of=>'str*', default=>['-a']}],
@@ -102,7 +124,16 @@ sub cp {
         my @cmd = ("rsync", @$rsync_opts, "$source/", "$target/");
         $log->info("Rsync-ing $source -> $target ...");
         system @cmd;
-        return [500, "rsync: ".explain_child_error($?)] if $?;
+        return [500, "Can't rsync: ".explain_child_error($?)] if $?;
+        $log->info("Chown-ing $target ...");
+        if (defined($args{target_owner}) || defined($args{target_group})) {
+            @cmd = (
+                "chown", "-Rh",
+                join("", $args{target_owner}//"", ":", $args{target_group}//""),
+                $target);
+            system @cmd;
+            return [500, "Can't chown: ".explain_child_error($?)] if $?;
+        }
         return [200, "OK"];
     }
     [400, "Invalid -tx_action"];
@@ -121,7 +152,7 @@ File::Copy::Undoable - Copy file/directory using rsync, with undo support
 
 =head1 VERSION
 
-version 0.01
+version 0.02
 
 =head1 FAQ
 
@@ -130,7 +161,7 @@ version 0.01
 With C<rsync>, we can continue interrupted transfer. We need this ability for
 recovery. Also, C<rsync> can handle hardlinks and preservation of ownership,
 something which L<File::Copy::Recursive> currently does not do. And, being
-implemented in C, it might be faster when processing large files/trees..
+implemented in C, it might be faster when processing large files/trees.
 
 =head1 SEE ALSO
 
@@ -185,6 +216,21 @@ Target location.
 Note that to avoid ambiguity, you must specify full location instead of just
 directory name. For example: cp(source=>'/dir', target=>'/a') will copy /dir to
 /a and cp(source=>'/dir', target=>'/a/dir') will copy /dir to /a/dir.
+
+=item * B<target_group> => I<str>
+
+Set group of target.
+
+See C<target_owner>.
+
+=item * B<target_owner> => I<str>
+
+Set ownership of target.
+
+If set, will do a C<chmod -Rh> on the target after rsync to set ownership. This
+usually requires super-user privileges. An example of this is copying files on
+behalf of user from a source that is inaccessible by the user (e.g. a system
+backup location). Or, setting up user's home directory when creating a user.
 
 =back
 
