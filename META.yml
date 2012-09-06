@@ -30,4 +30,4 @@ requires:
 resources:
   homepage: http://metacpan.org/release/File-Copy-Undoable
   repository: http://github.com/sharyanto/perl-File-Copy-Undoable
-version: 0.02
+version: 0.03

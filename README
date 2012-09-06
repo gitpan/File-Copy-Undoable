@@ -3,7 +3,7 @@ NAME
     support
 
 VERSION
-    version 0.02
+    version 0.03
 
 FAQ
   Why do you use rsync? Why not, say, File::Copy::Recursive?
@@ -76,6 +76,8 @@ FUNCTIONS
         of this is copying files on behalf of user from a source that is
         inaccessible by the user (e.g. a system backup location). Or,
         setting up user's home directory when creating a user.
+
+        Will do nothing if not running as super-user.
 
     Special arguments:
 

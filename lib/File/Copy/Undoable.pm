@@ -11,7 +11,7 @@ use File::Trash::Undoable;
 use SHARYANTO::File::Util qw(file_exists);
 use SHARYANTO::Proc::ChildError qw(explain_child_error);
 
-our $VERSION = '0.02'; # VERSION
+our $VERSION = '0.03'; # VERSION
 
 our %SPEC;
 
@@ -59,6 +59,8 @@ If set, will do a `chmod -Rh` on the target after rsync to set ownership. This
 usually requires super-user privileges. An example of this is copying files on
 behalf of user from a source that is inaccessible by the user (e.g. a system
 backup location). Or, setting up user's home directory when creating a user.
+
+Will do nothing if not running as super-user.
 
 _
         },
@@ -127,12 +129,17 @@ sub cp {
         return [500, "Can't rsync: ".explain_child_error($?)] if $?;
         $log->info("Chown-ing $target ...");
         if (defined($args{target_owner}) || defined($args{target_group})) {
-            @cmd = (
-                "chown", "-Rh",
-                join("", $args{target_owner}//"", ":", $args{target_group}//""),
-                $target);
-            system @cmd;
-            return [500, "Can't chown: ".explain_child_error($?)] if $?;
+            if ($> == 0) {
+                @cmd = (
+                    "chown", "-Rh",
+                    join("", $args{target_owner}//"", ":",
+                         $args{target_group}//""),
+                    $target);
+                system @cmd;
+                return [500, "Can't chown: ".explain_child_error($?)] if $?;
+            } else {
+                $log->debug("Not running as root, not doing chown");
+            }
         }
         return [200, "OK"];
     }
@@ -152,7 +159,7 @@ File::Copy::Undoable - Copy file/directory using rsync, with undo support
 
 =head1 VERSION
 
-version 0.02
+version 0.03
 
 =head1 FAQ
 
@@ -231,6 +238,8 @@ If set, will do a C<chmod -Rh> on the target after rsync to set ownership. This
 usually requires super-user privileges. An example of this is copying files on
 behalf of user from a source that is inaccessible by the user (e.g. a system
 backup location). Or, setting up user's home directory when creating a user.
+
+Will do nothing if not running as super-user.
 
 =back
 
