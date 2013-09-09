@@ -1,10 +1,10 @@
-Build.PL
 Changes
 LICENSE
 MANIFEST
 MANIFEST.SKIP
 META.json
 META.yml
+Makefile.PL
 README
 dist.ini
 lib/File/Copy/Undoable.pm
@@ -14,4 +14,5 @@ t/owner_group-as_root.t
 t/owner_group-as_user.t
 t/release-pod-coverage.t
 t/release-pod-syntax.t
+t/release-rinci.t
 weaver.ini

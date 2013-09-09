@@ -3,7 +3,7 @@ NAME
     support
 
 VERSION
-    version 0.03
+    version 0.04
 
 FAQ
   Why do you use rsync? Why not, say, File::Copy::Recursive?
@@ -18,15 +18,20 @@ SEE ALSO
 
     Rinci::Transaction
 
-DESCRIPTION
-    This module has Rinci metadata.
+AUTHOR
+    Steven Haryanto <stevenharyanto@gmail.com>
 
+COPYRIGHT AND LICENSE
+    This software is copyright (c) 2013 by Steven Haryanto.
+
+    This is free software; you can redistribute it and/or modify it under
+    the same terms as the Perl 5 programming language system itself.
+
+DESCRIPTION
 FUNCTIONS
     None are exported by default, but they are exportable.
 
   cp(%args) -> [status, msg, result, meta]
-    Copy file/directory using rsync, with undo support.
-
     On do, will copy "source" to "target" (which must not exist beforehand).
     On undo, will trash "target".
 
@@ -109,13 +114,4 @@ FUNCTIONS
     message, or 'OK' if status is 200. Third element (result) is optional,
     the actual result. Fourth element (meta) is called result metadata and
     is optional, a hash that contains extra information.
-
-AUTHOR
-    Steven Haryanto <stevenharyanto@gmail.com>
-
-COPYRIGHT AND LICENSE
-    This software is copyright (c) 2012 by Steven Haryanto.
-
-    This is free software; you can redistribute it and/or modify it under
-    the same terms as the Perl 5 programming language system itself.
 
