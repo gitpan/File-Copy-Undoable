@@ -3,35 +3,13 @@ NAME
     support
 
 VERSION
-    version 0.04
+    This document describes version 0.05 of File::Copy::Undoable (from Perl
+    distribution File-Copy-Undoable), released on 2014-05-17.
 
-FAQ
-  Why do you use rsync? Why not, say, File::Copy::Recursive?
-    With "rsync", we can continue interrupted transfer. We need this ability
-    for recovery. Also, "rsync" can handle hardlinks and preservation of
-    ownership, something which File::Copy::Recursive currently does not do.
-    And, being implemented in C, it might be faster when processing large
-    files/trees.
-
-SEE ALSO
-    Setup
-
-    Rinci::Transaction
-
-AUTHOR
-    Steven Haryanto <stevenharyanto@gmail.com>
-
-COPYRIGHT AND LICENSE
-    This software is copyright (c) 2013 by Steven Haryanto.
-
-    This is free software; you can redistribute it and/or modify it under
-    the same terms as the Perl 5 programming language system itself.
-
-DESCRIPTION
 FUNCTIONS
-    None are exported by default, but they are exportable.
-
   cp(%args) -> [status, msg, result, meta]
+    Copy file/directory using rsync, with undo support.
+
     On do, will copy "source" to "target" (which must not exist beforehand).
     On undo, will trash "target".
 
@@ -108,10 +86,49 @@ FUNCTIONS
 
     Return value:
 
-    Returns an enveloped result (an array). First element (status) is an
-    integer containing HTTP status code (200 means OK, 4xx caller error, 5xx
-    function error). Second element (msg) is a string containing error
-    message, or 'OK' if status is 200. Third element (result) is optional,
-    the actual result. Fourth element (meta) is called result metadata and
-    is optional, a hash that contains extra information.
+    Returns an enveloped result (an array).
+
+    First element (status) is an integer containing HTTP status code (200
+    means OK, 4xx caller error, 5xx function error). Second element (msg) is
+    a string containing error message, or 'OK' if status is 200. Third
+    element (result) is optional, the actual result. Fourth element (meta)
+    is called result metadata and is optional, a hash that contains extra
+    information.
+
+FAQ
+  Why do you use rsync? Why not, say, File::Copy::Recursive?
+    With "rsync", we can continue interrupted transfer. We need this ability
+    for recovery. Also, "rsync" can handle hardlinks and preservation of
+    ownership, something which File::Copy::Recursive currently does not do.
+    And, being implemented in C, it might be faster when processing large
+    files/trees.
+
+SEE ALSO
+    Setup
+
+    Rinci::Transaction
+
+HOMEPAGE
+    Please visit the project's homepage at
+    <https://metacpan.org/release/File-Copy-Undoable>.
+
+SOURCE
+    Source repository is at
+    <https://github.com/sharyanto/perl-File-Copy-Undoable>.
+
+BUGS
+    Please report any bugs or feature requests on the bugtracker website
+    <https://rt.cpan.org/Public/Dist/Display.html?Name=File-Copy-Undoable>
+
+    When submitting a bug or request, please include a test-file or a patch
+    to an existing test-file that illustrates the bug or desired feature.
+
+AUTHOR
+    Steven Haryanto <stevenharyanto@gmail.com>
+
+COPYRIGHT AND LICENSE
+    This software is copyright (c) 2014 by Steven Haryanto.
+
+    This is free software; you can redistribute it and/or modify it under
+    the same terms as the Perl 5 programming language system itself.
 

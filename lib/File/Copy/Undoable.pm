@@ -8,10 +8,10 @@ use Log::Any '$log';
 use Builtin::Logged qw(system);
 use File::Trash::Undoable;
 #use PerlX::Maybe;
+use Proc::ChildError qw(explain_child_error);
 use SHARYANTO::File::Util qw(file_exists);
-use SHARYANTO::Proc::ChildError qw(explain_child_error);
 
-our $VERSION = '0.04'; # VERSION
+our $VERSION = '0.05'; # VERSION
 
 our %SPEC;
 
@@ -153,7 +153,7 @@ __END__
 
 =pod
 
-=encoding utf-8
+=encoding UTF-8
 
 =head1 NAME
 
@@ -161,42 +161,14 @@ File::Copy::Undoable - Copy file/directory using rsync, with undo support
 
 =head1 VERSION
 
-version 0.04
-
-=head1 FAQ
-
-=head2 Why do you use rsync? Why not, say, File::Copy::Recursive?
-
-With C<rsync>, we can continue interrupted transfer. We need this ability for
-recovery. Also, C<rsync> can handle hardlinks and preservation of ownership,
-something which L<File::Copy::Recursive> currently does not do. And, being
-implemented in C, it might be faster when processing large files/trees.
-
-=head1 SEE ALSO
-
-L<Setup>
-
-L<Rinci::Transaction>
-
-=head1 AUTHOR
-
-Steven Haryanto <stevenharyanto@gmail.com>
-
-=head1 COPYRIGHT AND LICENSE
-
-This software is copyright (c) 2013 by Steven Haryanto.
-
-This is free software; you can redistribute it and/or modify it under
-the same terms as the Perl 5 programming language system itself.
-
-=head1 DESCRIPTION
+This document describes version 0.05 of File::Copy::Undoable (from Perl distribution File-Copy-Undoable), released on 2014-05-17.
 
 =head1 FUNCTIONS
 
 
-None are exported by default, but they are exportable.
-
 =head2 cp(%args) -> [status, msg, result, meta]
+
+Copy file/directory using rsync, with undo support.
 
 On do, will copy C<source> to C<target> (which must not exist beforehand). On
 undo, will trash C<target>.
@@ -279,6 +251,55 @@ For more information on transaction, see L<Rinci::Transaction>.
 
 Return value:
 
-Returns an enveloped result (an array). First element (status) is an integer containing HTTP status code (200 means OK, 4xx caller error, 5xx function error). Second element (msg) is a string containing error message, or 'OK' if status is 200. Third element (result) is optional, the actual result. Fourth element (meta) is called result metadata and is optional, a hash that contains extra information.
+Returns an enveloped result (an array).
+
+First element (status) is an integer containing HTTP status code
+(200 means OK, 4xx caller error, 5xx function error). Second element
+(msg) is a string containing error message, or 'OK' if status is
+200. Third element (result) is optional, the actual result. Fourth
+element (meta) is called result metadata and is optional, a hash
+that contains extra information.
+
+=head1 FAQ
+
+=head2 Why do you use rsync? Why not, say, File::Copy::Recursive?
+
+With C<rsync>, we can continue interrupted transfer. We need this ability for
+recovery. Also, C<rsync> can handle hardlinks and preservation of ownership,
+something which L<File::Copy::Recursive> currently does not do. And, being
+implemented in C, it might be faster when processing large files/trees.
+
+=head1 SEE ALSO
+
+L<Setup>
+
+L<Rinci::Transaction>
+
+=head1 HOMEPAGE
+
+Please visit the project's homepage at L<https://metacpan.org/release/File-Copy-Undoable>.
+
+=head1 SOURCE
+
+Source repository is at L<https://github.com/sharyanto/perl-File-Copy-Undoable>.
+
+=head1 BUGS
+
+Please report any bugs or feature requests on the bugtracker website L<https://rt.cpan.org/Public/Dist/Display.html?Name=File-Copy-Undoable>
+
+When submitting a bug or request, please include a test-file or a
+patch to an existing test-file that illustrates the bug or desired
+feature.
+
+=head1 AUTHOR
+
+Steven Haryanto <stevenharyanto@gmail.com>
+
+=head1 COPYRIGHT AND LICENSE
+
+This software is copyright (c) 2014 by Steven Haryanto.
+
+This is free software; you can redistribute it and/or modify it under
+the same terms as the Perl 5 programming language system itself.
 
 =cut
