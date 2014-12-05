@@ -3,8 +3,8 @@ NAME
     support
 
 VERSION
-    This document describes version 0.05 of File::Copy::Undoable (from Perl
-    distribution File-Copy-Undoable), released on 2014-05-17.
+    This document describes version 0.06 of File::Copy::Undoable (from Perl
+    distribution File-Copy-Undoable), released on 2014-12-05.
 
 FUNCTIONS
   cp(%args) -> [status, msg, result, meta]
@@ -95,6 +95,8 @@ FUNCTIONS
     is called result metadata and is optional, a hash that contains extra
     information.
 
+     (any)
+
 FAQ
   Why do you use rsync? Why not, say, File::Copy::Recursive?
     With "rsync", we can continue interrupted transfer. We need this ability
@@ -114,7 +116,7 @@ HOMEPAGE
 
 SOURCE
     Source repository is at
-    <https://github.com/sharyanto/perl-File-Copy-Undoable>.
+    <https://github.com/perlancar/perl-File-Copy-Undoable>.
 
 BUGS
     Please report any bugs or feature requests on the bugtracker website
@@ -124,10 +126,10 @@ BUGS
     to an existing test-file that illustrates the bug or desired feature.
 
 AUTHOR
-    Steven Haryanto <stevenharyanto@gmail.com>
+    perlancar <perlancar@cpan.org>
 
 COPYRIGHT AND LICENSE
-    This software is copyright (c) 2014 by Steven Haryanto.
+    This software is copyright (c) 2014 by perlancar@cpan.org.
 
     This is free software; you can redistribute it and/or modify it under
     the same terms as the Perl 5 programming language system itself.
